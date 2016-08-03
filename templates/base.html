@@ -5,6 +5,24 @@
     <link rel="stylesheet" href="/assets/css/bootstrap.min.css">
     <link rel="stylesheet" href="/assets/css/home.css">
   </head>
+
+  <script src="/assets/js/jquery-2.2.0.min.js"></script>
+  <script>window.jQuery || document.write('<script src="/assets/js/jquery-2.2.0.min.js"><\/script>')</script>
+  <script src="/assets/js/bootstrap.min.js"></script>
+  <script src="/assets/js/highcharts.js"></script>
+
+  <script>
+  $("#search").keyup(function(){
+    _this = this;
+    // Show only matching TR, hide rest of them
+    $.each($("#table tbody").find("tr"), function() {
+    if($(this).text().toLowerCase().indexOf($(_this).val().toLowerCase()) === -1)
+       $(this).hide();
+    else
+         $(this).show();
+       });
+  });
+  </script>
   <body>
     <nav class="navbar navbar-inverse navbar-fixed-top">
           <div class="container-fluid">
@@ -36,24 +54,6 @@
             {{template "content" .}}
           </div>
         </div>
-
-        <script src="/assets/js/jquery-2.2.0.min.js"></script>
-        <script>window.jQuery || document.write('<script src="/assets/js/jquery-2.2.0.min.js"><\/script>')</script>
-        <script src="/assets/js/bootstrap.min.js"></script>
-
-        <script>
-        $("#search").keyup(function(){
-          _this = this;
-          // Show only matching TR, hide rest of them
-          $.each($("#table tbody").find("tr"), function() {
-          if($(this).text().toLowerCase().indexOf($(_this).val().toLowerCase()) === -1)
-             $(this).hide();
-          else
-               $(this).show();
-             });
-        });
-        </script>
-
   </body>
 </html>
 {{end}}

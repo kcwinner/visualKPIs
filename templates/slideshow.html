@@ -56,6 +56,9 @@
 
 </div>
 
+<div id="container" style="min-width: 250px; height: 300px; max-width: 600px; margin: 0 auto">
+</div>
+
 <script>
 
 {{range $soldier := .Soldiers}}
@@ -86,5 +89,56 @@ function carousel() {
     x[slideIndex-1].style.display = "block";
     setTimeout(carousel, 3000); // Change image every 3 seconds
 }
+
+$(function () {
+    $(document).ready(function () {
+
+        // Build the chart
+        $('#container').highcharts({
+            chart: {
+                plotBackgroundColor: null,
+                plotBorderWidth: null,
+                plotShadow: false,
+                type: 'pie'
+            },
+            title: {
+                text: 'C Co APFT Data'
+            },
+            tooltip: {
+                pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+            },
+            plotOptions: {
+                pie: {
+                    allowPointSelect: true,
+                    cursor: 'pointer',
+                    dataLabels: {
+                        enabled: false
+                    },
+                    showInLegend: true
+                }
+            },
+            series: [{
+                name: 'APFT Data',
+                colorByPoint: true,
+                data: [{
+                    name: 'APFT Pass Percent',
+                    y: {{.APFTData.PercentPassed}},
+                    sliced: true,
+                    selected: true,
+                    color: 'green'
+                }, {
+                    name: 'APFT Fail Percent',
+                    y: {{.APFTData.PercentFail}},
+                    color: 'red'
+                }, {
+                    name: 'APFT Untaken',
+                    y: {{.APFTData.PercentNotTaken}},
+                    color: 'orange'
+                }]
+            }]
+        });
+    });
+});
+
 </script>
 {{end}}

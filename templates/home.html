@@ -15,28 +15,8 @@
     </div>
   </div>
 -->
-<!--
-  <div class="table-responsive">
-    <table class="table table-striped" style="width:50%">
-      <tbody>
-        <tr>
-          <th class="col-sm-2">APFT Pass Percent</th>
-          <td class="col-sm-1">{{.APFTData.PercentPassed}}</td>
-        </tr>
-        <tr>
-          <th class="col-sm-2">APFT Fail Percent</th>
-          <td class="col-sm-1">{{.APFTData.PercentFail}}</td>
-        </tr>
-        <tr>
-          <th class="col-sm-2">APFT Untaken Percent</th>
-          <td class="col-sm-1">{{.APFTData.PercentNotTaken}}</td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
--->
 
-  <div id="container">
+  <div id="container" style="min-width: 310px; height: 400px; max-width: 600px; margin: 0 auto">
   </div>
 
   {{range $soldier := .Soldiers}}
@@ -48,9 +28,9 @@
   {{end}}
 
 </div>
+
 <script>
 $(function () {
-
     $(document).ready(function () {
 
         // Build the chart
@@ -84,17 +64,21 @@ $(function () {
                     name: 'APFT Pass Percent',
                     y: {{.APFTData.PercentPassed}},
                     sliced: true,
-                    selected: true
+                    selected: true,
+                    color: 'green'
                 }, {
                     name: 'APFT Fail Percent',
-                    y: {{.APFTData.PercentFail}}
+                    y: {{.APFTData.PercentFail}},
+                    color: 'red'
                 }, {
                     name: 'APFT Untaken',
-                    y: {{.APFTData.PercentNotTaken}}
+                    y: {{.APFTData.PercentNotTaken}},
+                    color: 'orange'
                 }]
             }]
         });
     });
 });
 </script>
+
 {{end}}

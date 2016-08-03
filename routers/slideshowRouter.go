@@ -48,8 +48,29 @@ func slideshowHandler(w http.ResponseWriter, r *http.Request) {
 
 	response.Body.Close()
 
-	vm := viewModels.SoldiersViewModel{
+	req, err = buildGetRequest("http://localhost:8080/api/v1/apft")
+	if err != nil {
+		log.Println(err)
+	}
+
+	response, err = client.Do(req)
+	if err != nil {
+		log.Println(err)
+	}
+
+	body, err = ioutil.ReadAll(response.Body)
+	if err != nil {
+		log.Println(err)
+	}
+
+	var apftData models.APFTData
+	json.Unmarshal(body, &apftData)
+
+	response.Body.Close()
+
+	vm := viewModels.SlideshowViewModel{
 		Soldiers: soldiers,
+		APFTData: apftData,
 	}
 
 	dataTemp.RenderTemplate(w, "base", vm)
