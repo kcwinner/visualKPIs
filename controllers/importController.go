@@ -3,13 +3,12 @@ package controllers
 import (
 	"encoding/csv"
 	"encoding/json"
+	"fmt"
 	"io"
-	"log"
 	"mime/multipart"
 	"net/http"
 	"strconv"
 	"strings"
-	"time"
 
 	"gopkg.in/mgo.v2/bson"
 
@@ -129,8 +128,6 @@ func parseCSV(infile multipart.File) ([]models.Soldier, error) {
 
 		soldier := models.Soldier{}
 
-		layout := "20150101"
-
 		for index := range record {
 			val := record[index]
 			switch headers[index] {
@@ -147,15 +144,20 @@ func parseCSV(infile multipart.File) ([]models.Soldier, error) {
 			case "CivilianEmployment":
 				soldier.CivilianEmployment = val
 			case "ETS":
-				soldier.ETSDate, err = time.Parse(layout, val)
-				if err != nil {
-					log.Println(err)
+				if strings.Compare(val, "") == 0 {
+					soldier.ETSDate = val
+					break
 				}
+				formattedTime := fmt.Sprintf("%s-%s-%s", val[:4], val[4:6], val[6:])
+				soldier.ETSDate = formattedTime
 			case "NCOERDate":
-				soldier.NCOERDate, err = time.Parse(layout, val)
-				if err != nil {
-					log.Println(err)
+				if strings.Compare(val, "") == 0 {
+					soldier.NCOERDate = val
+					break
 				}
+
+				formattedTime := fmt.Sprintf("%s-%s-%s", val[:4], val[4:6], val[6:8])
+				soldier.NCOERDate = formattedTime
 			case "APFTSCORE":
 				soldier.APFTScore, _ = strconv.Atoi(val)
 			case "APFTRSLT":

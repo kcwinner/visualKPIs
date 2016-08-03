@@ -8,6 +8,7 @@ import (
 func InitRoutes() *mux.Router {
 	router := mux.NewRouter().StrictSlash(false)
 
+	router = setAPFTRoutes(router)
 	router = setHomeRoutes(router)
 	router = setImportRoutes(router)
 	router = setSlideshowRoutes(router)

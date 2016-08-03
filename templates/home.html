@@ -1,5 +1,5 @@
 {{define "content"}}
-<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-1 main">
   <h1 class="page-header">Dashboard</h1>
 
 <!--
@@ -16,6 +16,25 @@
   </div>
 -->
 
+  <div class="table-responsive">
+    <table class="table table-striped" style="width:50%">
+      <tbody>
+        <tr>
+          <th class="col-sm-2">APFT Pass Percent</th>
+          <td class="col-sm-1">{{.APFTData.PercentPassed}}</td>
+        </tr>
+        <tr>
+          <th class="col-sm-2">APFT Fail Percent</th>
+          <td class="col-sm-1">{{.APFTData.PercentFail}}</td>
+        </tr>
+        <tr>
+          <th class="col-sm-2">APFT Untaken Percent</th>
+          <td class="col-sm-1">{{.APFTData.PercentNotTaken}}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
   {{range $soldier := .Soldiers}}
   <div class="floated_img" style="float:left;padding-left:10" >
     <a href="/soldiers/{{$soldier.ID.Hex}}"><img src="{{$soldier.Image}}" height="200" alt="Soldier image"></a>
@@ -24,23 +43,9 @@
   </div>
   {{end}}
 
-<!--
-  <h2 class="sub-header">What goes here?</h2>
-  <div class="table-responsive">
-    <table class="table table-striped" style="width:50%">
-      <tbody>
-        <tr>
-          <th class="col-sm-2">APFT Fail Percent</th>
-          <td class="col-sm-1">{{.APFTData.PercentFail}}</td>
-        </tr>
-        <tr>
-          <th class="col-sm-2">SSD Unfinished</th>
-          <td class="col-sm-1">{{.SSDData.PercentUnfinished}}</td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
--->
+
+
+
 
 </div>
 {{end}}

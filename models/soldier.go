@@ -1,10 +1,6 @@
 package models
 
-import (
-	"time"
-
-	"gopkg.in/mgo.v2/bson"
-)
+import "gopkg.in/mgo.v2/bson"
 
 //Soldier Model representing a soldier
 type Soldier struct {
@@ -15,8 +11,8 @@ type Soldier struct {
 	MOS                string        `json:"mos" bson:"mos"`
 	Section            string        `json:"section" bson:"section"`
 	CivilianEmployment string        `json:"civilianemployment" bson:"civilianemployment"`
-	ETSDate            time.Time     `json:"etsdate" bson:"etsdate"`
-	NCOERDate          time.Time     `json:"ncoerdate" bson:"ncoerdate"`
+	ETSDate            string        `json:"etsdate" bson:"etsdate"`
+	NCOERDate          string        `json:"ncoerdate" bson:"ncoerdate"`
 	APFTPass           bool          `json:"apftpass" bson:"apftpass"`
 	APFTScore          int           `json:"apftscore" bson:"apftscore"`
 	SSD                int           `json:"ssd" bson:"ssd"`
