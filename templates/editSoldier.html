@@ -1,0 +1,240 @@
+{{define "content"}}
+<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+  <h2 class="sub-header">Update Soldier</h2>
+  <div>
+    <div class="form-group">
+      <label for="First Name" class="col-sm control-label">First Name</label>
+      <div class="col-sm">
+        <input type="text"
+          class="form-control"
+          id="firstName"
+          name="FirstName"
+          placeholder="Enter soldier's first name"
+          value="{{.Soldier.FirstName}}"
+          data-msg-required="First Name is a required field." />
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="Last Name" class="col-sm control-label">Last Name</label>
+      <div class="col-sm">
+        <input type="text"
+          class="form-control"
+          id="lastName"
+          name="Last Name"
+          placeholder="Enter soldier's last name"
+          value="{{.Soldier.LastName}}"
+          data-msg-required="Last Name is a required field." />
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="Rank" class="col-sm control-label">Rank</label>
+      <div class="col-sm">
+        <input type="text"
+          class="form-control"
+          id="rank"
+          name="Rank"
+          placeholder="Enter soldier's rank"
+          value="{{.Soldier.Rank}}"
+          data-msg-required="Rank is a required field." />
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="MOS" class="col-sm control-label">MOS</label>
+      <div class="col-sm">
+        <input type="text"
+          class="form-control"
+          id="mos"
+          name="MOS"
+          placeholder="Enter soldier's MOS"
+          value="{{.Soldier.MOS}}"
+          data-msg-required="MOS is a required field." />
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="Section" class="col-sm control-label">Section</label>
+      <div class="col-sm">
+        <input type="text"
+          class="form-control"
+          id="section"
+          name="Section"
+          placeholder="Enter soldier's section"
+          value="{{.Soldier.Section}}" />
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="CivilianEmployment" class="col-sm control-label">Civilian Employment</label>
+      <div class="col-sm">
+        <input type="text"
+          class="form-control"
+          id="civilianemployment"
+          name="CivilianEmployment"
+          placeholder="Enter soldier's civilian employment"
+          value="{{.Soldier.CivilianEmployment}}" />
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="ETSDate" class="col-sm control-label">ETS Date</label>
+      <div class="col-sm">
+        <input type="text"
+          class="form-control"
+          id="etsdate"
+          name="ETSDate"
+          placeholder="Enter soldier's ETS date"
+          value="{{.Soldier.ETSDate}}" />
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="NCOERDate" class="col-sm control-label">OER/NCOER Date</label>
+      <div class="col-sm">
+        <input type="text"
+          class="form-control"
+          id="ncoerdate"
+          name="NCOERDate"
+          placeholder="Enter soldier's OER/NCOER due date"
+          value="{{.Soldier.NCOERDate}}" />
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="APFTPass" class="col-sm control-label">APFT Pass</label>
+      <div class="col-sm">
+        <input type="text"
+          class="form-control"
+          id="apftpass"
+          name="APFTPass"
+          placeholder="Enter true or false"
+          value="{{.Soldier.APFTPass}}" />
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="APFTScore" class="col-sm control-label">Last APFT Score</label>
+      <div class="col-sm">
+        <input type="number"
+          class="form-control"
+          id="apftscore"
+          name="APFTScore"
+          placeholder="Enter soldier's last APFT score"
+          value="{{.Soldier.APFTScore}}"
+          data-msg-required="Last APFT Score is a required field." />
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="SSD" class="col-sm control-label">SSD</label>
+      <div class="col-sm">
+        <input type="number"
+          class="form-control"
+          id="ssd"
+          name="SSD"
+          placeholder="Enter soldier's SSD completion percent"
+          value="{{.Soldier.SSD}}" />
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="Image" class="col-sm control-label">Image</label>
+      <div class="col-sm">
+        <input type="file"
+          class="form-control"
+          id="image"
+          name="Image" />
+      </div>
+    </div>
+
+  </div>
+
+  <div>
+    <button type="submit" onclick="updateSoldier('{{.Soldier.ID.Hex}}')" class="btn btn-green">Update</button>
+    <a href="/soldiers/{{.Soldier.ID.Hex}}" class="btn btn-default">Cancel</a>
+  </div>
+</div>
+
+<script>
+  function loadSoldierPage() {
+    window.location.href = "/soldiers/{{.Soldier.ID.Hex}}"
+  }
+
+  function updateSoldier(soldierId) {
+    var firstName = $("#firstName").val();
+    var lastName = $("#lastName").val();
+    var rank = $("#rank").val();
+    var mos = $("#mos").val();
+    var section = $("#section").val();
+    var civilianemployment = $("#civilianemployment").val();
+    var etsdate = $("#etsdate").val();
+    var ncoerdate = $("#ncoerdate").val();
+    var apftpass = !!$("#apftpass").val();
+    var apftscore = parseInt($("#apftscore").val(), 10);
+    var ssd = parseInt($("#ssd").val(), 10);
+
+    var image = document.getElementById("image").files[0];
+
+    if (image == undefined) {
+      var soldier = {
+        id: soldierId,
+        firstname: firstName,
+        lastname: lastName,
+        rank: rank,
+        mos: mos,
+        section: section,
+        civilianemployment: civilianemployment,
+        etsdate: etsdate,
+        ncoerdate: ncoerdate,
+        apftpass: apftpass,
+        apftscore: apftscore,
+        ssd: ssd,
+        image: "{{.Soldier.Image}}"
+       };
+
+       $.ajax({
+         url: 'http://localhost:8080/api/v1/soldiers',
+         type: 'PUT',
+         contentType: 'application/json',
+         data: JSON.stringify(soldier),
+         success: loadSoldierPage
+      });
+    } else {
+      var fileBody;
+      var reader = new FileReader();
+
+      reader.onload = function(fileLoadedEvent) {
+        fileBody = fileLoadedEvent.target.result; // <--- data: base64
+
+        var soldier = {
+          id: soldierId,
+          firstname: firstName,
+          lastname: lastName,
+          rank: rank,
+          mos: mos,
+          section: section,
+          civilianemployment: civilianemployment,
+          etsdate: etsdate,
+          ncoerdate: ncoerdate,
+          apftpass: apftpass,
+          apftscore: apftscore,
+          ssd: ssd,
+          image: fileBody
+         };
+
+        $.ajax({
+          url: 'http://localhost:8080/api/v1/soldiers',
+          type: 'PUT',
+          contentType: 'application/json',
+          data: JSON.stringify(soldier),
+          success: loadSoldierPage
+       });
+      }
+
+      reader.readAsDataURL(image)
+    }
+  }
+</script>
+{{end}}

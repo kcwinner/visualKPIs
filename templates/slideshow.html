@@ -1,0 +1,91 @@
+{{define "content"}}
+<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+
+
+  {{range $soldier := .Soldiers}}
+  <div class="slideshowDiv" style="display:none">
+    <h1 class="page-header">{{$soldier.Rank}} {{$soldier.LastName}}, {{$soldier.FirstName}}</h1>
+    <img src="{{$soldier.Image}}" width="300" class="img-responsive" alt="Soldier image" style="float:left">
+    <div class="table-responsive" style="padding-left:50">
+      <table id="table" class="table table-bordered" style="width:30%">
+        <tbody>
+          <tr>
+            <th class="col-sm-2">MOS</th>
+            <td class="col-sm-1" align="center">{{$soldier.MOS}}</td>
+          </tr>
+        </tbody>
+        <tbody>
+          <tr>
+            <th class="col-sm-2">Section</th>
+            <td class="col-sm-1" align="center">{{$soldier.Section}}</td>
+          </tr>
+        </tbody>
+        <tbody>
+          <tr>
+            <th class="col-sm-2">Civilian Employment</th>
+            <td class="col-sm-1" align="center">{{$soldier.CivilianEmployment}}</td>
+          </tr>
+        </tbody>
+        <tbody>
+          <tr>
+            <th class="col-sm-2">ETS Date</th>
+            <td class="col-sm-1" align="center">{{$soldier.ETSDate}}</td>
+          </tr>
+        </tbody>
+        <tbody>
+          <tr>
+            <th class="col-sm-2">OER/NCOER Date</th>
+            <td class="col-sm-1" align="center">{{$soldier.NCOERDate}}</td>
+          </tr>
+        </tbody>
+        <tbody>
+          <tr>
+            <th class="col-sm-2">APFT Score</th>
+            <td id="{{$soldier.ID.Hex}}" class="col-sm-1" align="center">{{$soldier.APFTScore}}</td>
+          </tr>
+        </tbody>
+        <tbody>
+          <tr>
+            <th class="col-sm-2">SSD</th>
+            <td class="col-sm-1" align="center">{{$soldier.SSD}}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  {{end}}
+
+</div>
+
+<script>
+
+{{range $soldier := .Soldiers}}
+
+var apftRow = document.getElementById("{{$soldier.ID.Hex}}")
+if ({{$soldier.APFTPass}}) {
+  apftRow.style.backgroundColor = "green";
+} else {
+  apftRow.style.backgroundColor = "red";
+}
+{{end}}
+
+var slideIndex = 0;
+
+carousel();
+
+function carousel() {
+    var i;
+    var x = document.getElementsByClassName("slideshowDiv");
+    for (i = 0; i < x.length; i++) {
+      x[i].style.display = "none";
+    }
+    slideIndex++;
+
+
+
+    if (slideIndex > x.length) {slideIndex = 1}
+    x[slideIndex-1].style.display = "block";
+    setTimeout(carousel, 3000); // Change image every 3 seconds
+}
+</script>
+{{end}}

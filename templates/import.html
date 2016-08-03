@@ -1,0 +1,12 @@
+{{define "content"}}
+<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+  <h1 class="page-header">Import Soldier Data</h1>
+
+  <form method="post" action="/api/v1/import" enctype="multipart/form-data">
+    <input type="file" name="uploadfile" />
+    <br/>
+    <input type="submit" value="upload" />
+  </form>
+
+</div>
+{{end}}

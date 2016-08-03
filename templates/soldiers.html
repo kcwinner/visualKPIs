@@ -1,0 +1,246 @@
+{{define "content"}}
+<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+  <h2 class="sub-header">Soldiers</h2>
+  <div class="table-responsive">
+    <button onclick="addSoldierModal()">Add Soldier</button>
+    <table id="table" class="table table-striped">
+      <thead>
+        <tr>
+          <th>Rank</th>
+          <th>Last</th>
+          <th>First</th>
+          <th>MOS</th>
+        </tr>
+      </thead>
+      <tbody>
+        {{range $soldier := .Soldiers}}
+        <tr>
+          <td>{{$soldier.Rank}}</td>
+          <td>{{$soldier.LastName}}</td>
+          <td>{{$soldier.FirstName}}</td>
+          <td>{{$soldier.MOS}}</td>
+          <td>
+            <a href="/soldiers/{{$soldier.ID.Hex}}">View</a>
+            <button onclick="deleteSoldierModal('{{$soldier.ID.Hex}}')">Delete</button>
+          </td>
+        </tr>
+        {{end}}
+      </tbody>
+    </table>
+  </div>
+
+  <div class="modal fade" id="modal-addsoldier">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+          <h4 class="modal-title">Add Soldier</h4>
+        </div>
+
+        <div class="modal-body" id="modal-addbody">
+
+          <div class="form-group">
+            <label for="First Name" class="col-sm control-label">First Name</label>
+            <div class="col-sm">
+              <input type="text"
+                class="form-control"
+                id="modal-firstName"
+                name="FirstName"
+                placeholder="Enter soldier's first name"
+                data-msg-required="First Name is a required field." />
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="Last Name" class="col-sm control-label">Last Name</label>
+            <div class="col-sm">
+              <input type="text"
+                class="form-control"
+                id="modal-lastName"
+                name="Last Name"
+                placeholder="Enter soldier's last name"
+                data-msg-required="Last Name is a required field." />
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="Rank" class="col-sm control-label">Rank</label>
+            <div class="col-sm">
+              <input type="text"
+                class="form-control"
+                id="modal-rank"
+                name="Rank"
+                placeholder="Enter soldier's rank"
+                data-msg-required="Rank is a required field." />
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="MOS" class="col-sm control-label">MOS</label>
+            <div class="col-sm">
+              <input type="text"
+                class="form-control"
+                id="modal-mos"
+                name="MOS"
+                placeholder="Enter soldier's MOS"
+                data-msg-required="MOS is a required field." />
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="Section" class="col-sm control-label">Section</label>
+            <div class="col-sm">
+              <input type="text"
+                class="form-control"
+                id="modal-section"
+                name="Section"
+                placeholder="Enter soldier's section"
+                data-msg-required="Section is a required field." />
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="APFTScore" class="col-sm control-label">Last APFT Score</label>
+            <div class="col-sm">
+              <input type="number"
+                class="form-control"
+                id="modal-apftscore"
+                name="APFTScore"
+                placeholder="Enter soldier's last APFT score"
+                data-msg-required="Last APFT Score is a required field." />
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="Image" class="col-sm control-label">Image</label>
+            <div class="col-sm">
+              <input type="file"
+                class="form-control"
+                id="modal-image"
+                name="Image" />
+            </div>
+          </div>
+
+        </div>
+
+        <div class="modal-footer">
+          <button type="submit" onclick="createSoldier()" class="btn btn-green">Add</button>
+          <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal fade" id="modal-deletesoldier">
+    <div class="modal-dialog">
+      <div class="modal-content">
+
+        <input type="hidden" id="deleteSoldierId" name="deleteSoldierId" />
+
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+          <h4 class="modal-title">Delete Soldier</h4>
+        </div>
+
+        <div class="modal-body" id="modal-deletebody">
+
+          <div class="form-group">
+            <p>Are you sure you want to delete this soldier?</p>
+          </div>
+
+        </div>
+
+        <div class="modal-footer">
+          <button type="submit" onclick="deleteSoldier(jQuery('#deleteSoldierId').val())" class="btn btn-green">Delete</button>
+          <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+  function deleteSoldier(id) {
+    $.ajax({
+    url: 'http://localhost:8080/api/v1/soldiers/' + id,
+    type: 'DELETE',
+    success: function(result) {
+        location.reload();
+    }
+   });
+  }
+
+  function addSoldierModal() {
+    jQuery('#modal-addsoldier').modal('show');
+  }
+
+  function deleteSoldierModal(soldierId) {
+    jQuery('#deleteSoldierId').val(soldierId);
+    jQuery('#modal-deletesoldier').modal('show');
+  }
+
+  function createSoldier() {
+    var firstName = $("#modal-firstName").val();
+    var lastName = $("#modal-lastName").val();
+    var rank = $("#modal-rank").val();
+    var mos = $("#modal-mos").val();
+    var section = $("#modal-section").val();
+    var apftscore = parseInt($("#modal-apftscore").val(), 10);
+
+    var image = document.getElementById("modal-image").files[0];
+
+    if (image == undefined) {
+      var soldier = {
+        firstname: firstName,
+        lastname: lastName,
+        rank: rank,
+        mos: mos,
+        section: section,
+        apftscore: apftscore
+       };
+
+      $.ajax({
+        url: 'http://localhost:8080/api/v1/soldiers',
+        type: 'POST',
+        contentType: 'application/json',
+        data: JSON.stringify(soldier),
+        success: function(result) {
+          location.reload();
+        }
+
+     });
+    } else {
+      var fileBody;
+      var reader = new FileReader();
+
+      reader.onload = function(fileLoadedEvent) {
+        fileBody = fileLoadedEvent.target.result; // <--- data: base64
+
+        var soldier = {
+          firstname: firstName,
+          lastname: lastName,
+          rank: rank,
+          mos: mos,
+          section: section,
+          apftscore: apftscore,
+          image: fileBody
+         };
+
+        $.ajax({
+          url: 'http://localhost:8080/api/v1/soldiers',
+          type: 'POST',
+          contentType: 'application/json',
+          data: JSON.stringify(soldier),
+          success: function(result) {
+            location.reload();
+          }
+
+       });
+      }
+
+      reader.readAsDataURL(image)
+    }
+  }
+</script>
+{{end}}
