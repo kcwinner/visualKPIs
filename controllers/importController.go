@@ -4,10 +4,12 @@ import (
 	"encoding/csv"
 	"encoding/json"
 	"io"
+	"log"
 	"mime/multipart"
 	"net/http"
 	"strconv"
 	"strings"
+	"time"
 
 	"gopkg.in/mgo.v2/bson"
 
@@ -127,6 +129,8 @@ func parseCSV(infile multipart.File) ([]models.Soldier, error) {
 
 		soldier := models.Soldier{}
 
+		layout := "20150101"
+
 		for index := range record {
 			val := record[index]
 			switch headers[index] {
@@ -143,9 +147,15 @@ func parseCSV(infile multipart.File) ([]models.Soldier, error) {
 			case "CivilianEmployment":
 				soldier.CivilianEmployment = val
 			case "ETS":
-				soldier.ETSDate = val
+				soldier.ETSDate, err = time.Parse(layout, val)
+				if err != nil {
+					log.Println(err)
+				}
 			case "NCOERDate":
-				soldier.NCOERDate = val
+				soldier.NCOERDate, err = time.Parse(layout, val)
+				if err != nil {
+					log.Println(err)
+				}
 			case "APFTSCORE":
 				soldier.APFTScore, _ = strconv.Atoi(val)
 			case "APFTRSLT":

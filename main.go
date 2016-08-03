@@ -4,12 +4,15 @@ import (
 	"log"
 	"net/http"
 
+	"github.com/kcwinner/visualKPIs/common"
 	"github.com/kcwinner/visualKPIs/data"
 	"github.com/kcwinner/visualKPIs/routers"
 )
 
 func main() {
 	log.Println("Starting Personnel Bio Server...")
+
+	common.StartUp()
 
 	router := routers.InitRoutes()
 
