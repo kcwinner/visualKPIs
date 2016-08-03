@@ -137,7 +137,7 @@ func parseCSV(infile multipart.File) ([]models.Soldier, error) {
 				soldier.LastName = val
 			case "RANK":
 				soldier.Rank = val[:3]
-			case "PMOS":
+			case "DYPOSN":
 				soldier.MOS = val
 			case "PARA":
 				soldier.Section = val
@@ -155,7 +155,6 @@ func parseCSV(infile multipart.File) ([]models.Soldier, error) {
 					soldier.NCOERDate = val
 					break
 				}
-
 				formattedTime := fmt.Sprintf("%s-%s-%s", val[:4], val[4:6], val[6:8])
 				soldier.NCOERDate = formattedTime
 			case "APFTSCORE":

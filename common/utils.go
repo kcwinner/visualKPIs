@@ -8,6 +8,7 @@ import (
 type configuration struct {
 	DatabaseServer string `json:"databaseserver"`
 	Database       string `json:"database"`
+	UnitName       string `json:"unitname"`
 	LogFile        string `json:"logfile"`
 }
 

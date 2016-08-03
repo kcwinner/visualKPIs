@@ -1,5 +1,6 @@
 {
   "databaseserver": "localhost",
   "database": "goDb",
+  "unitname": "C Co 638",
   "logfile": ""
 }

@@ -15,7 +15,7 @@
     </div>
   </div>
 -->
-
+<!--
   <div class="table-responsive">
     <table class="table table-striped" style="width:50%">
       <tbody>
@@ -34,6 +34,10 @@
       </tbody>
     </table>
   </div>
+-->
+
+  <div id="container">
+  </div>
 
   {{range $soldier := .Soldiers}}
   <div class="floated_img" style="float:left;padding-left:10" >
@@ -43,9 +47,54 @@
   </div>
   {{end}}
 
-
-
-
-
 </div>
+<script>
+$(function () {
+
+    $(document).ready(function () {
+
+        // Build the chart
+        $('#container').highcharts({
+            chart: {
+                plotBackgroundColor: null,
+                plotBorderWidth: null,
+                plotShadow: false,
+                type: 'pie'
+            },
+            title: {
+                text: 'C Co APFT Data'
+            },
+            tooltip: {
+                pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+            },
+            plotOptions: {
+                pie: {
+                    allowPointSelect: true,
+                    cursor: 'pointer',
+                    dataLabels: {
+                        enabled: false
+                    },
+                    showInLegend: true
+                }
+            },
+            series: [{
+                name: 'APFT Data',
+                colorByPoint: true,
+                data: [{
+                    name: 'APFT Pass Percent',
+                    y: {{.APFTData.PercentPassed}},
+                    sliced: true,
+                    selected: true
+                }, {
+                    name: 'APFT Fail Percent',
+                    y: {{.APFTData.PercentFail}}
+                }, {
+                    name: 'APFT Untaken',
+                    y: {{.APFTData.PercentNotTaken}}
+                }]
+            }]
+        });
+    });
+});
+</script>
 {{end}}
