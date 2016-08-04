@@ -142,8 +142,6 @@ func parseCSV(infile multipart.File) ([]models.Soldier, error) {
 				soldier.MOS = val
 			case "PARA":
 				soldier.Section = val
-			case "CivilianEmployment":
-				soldier.CivilianEmployment = val
 			case "ETS":
 				if strings.Compare(val, "") == 0 {
 					soldier.ETSDate = val

@@ -12,17 +12,29 @@ import (
 //GetSSDData HTTP Get - /api/v1/ssd
 func GetSSDData(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
-	var ssdData models.SSDData
 
 	session := data.GetDb()
 	defer session.Close()
 
-	coll := session.DB(common.AppConfig.Database).C("SSD")
-	err := coll.Find("").One(&ssdData)
-	if err != nil {
-		sendError(w, err, http.StatusInternalServerError, "Error getting SSD data.")
-		return
+	coll := session.DB(common.AppConfig.Database).C("Soldiers")
+	iter := coll.Find(nil).Iter()
+
+	result := models.Soldier{}
+
+	totalPercent := 0
+	soldierCount := 0
+
+	for iter.Next(&result) {
+		totalPercent += result.SSD
+		soldierCount++
 	}
+
+	var ssdData models.SSDData
+
+	finalPercent := float32(totalPercent) / float32(soldierCount*100) * 100
+
+	ssdData.PercentFinished = finalPercent
+	ssdData.PercentUnfinished = 100 - finalPercent
 
 	ssdJSON, err := json.Marshal(ssdData)
 

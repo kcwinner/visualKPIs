@@ -13,6 +13,7 @@ func InitRoutes() *mux.Router {
 	router = setImportRoutes(router)
 	router = setSlideshowRoutes(router)
 	router = setSoldiersRoutes(router)
+	router = setSSDRoutes(router)
 	router = setWebRoutes(router)
 
 	return router

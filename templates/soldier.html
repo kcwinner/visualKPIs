@@ -19,10 +19,6 @@
             <td class="col-sm-1" align="center">{{.Soldier.Section}}</td>
           </tr>
           <tr>
-            <th class="col-sm-2">Civilian Employment</th>
-            <td class="col-sm-1" align="center">{{.Soldier.CivilianEmployment}}</td>
-          </tr>
-          <tr>
             <th class="col-sm-2">ETS Date</th>
             <td class="col-sm-1" align="center">{{.Soldier.ETSDate}}</td>
           </tr>
@@ -49,6 +45,8 @@
   var apftRow = document.getElementById("apftRow")
   if ({{.Soldier.APFTPass}}) {
     apftRow.style.backgroundColor = "green";
+  } else if ({{.Soldier.APFTScore}} == 0){
+    apftRow.style.backgroundColor = "orange";
   } else {
     apftRow.style.backgroundColor = "red";
   }

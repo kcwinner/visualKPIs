@@ -2,21 +2,10 @@
 <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-1 main">
   <h1 class="page-header">Dashboard</h1>
 
-<!--
-  <div class="row placeholders">
-    <div class="col-xs-6 col-sm-3 placeholder">
-      <img src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" width="200" height="200" class="img-responsive" alt="Generic placeholder thumbnail">
-      <h4>APFT</h4>
-    </div>
-
-    <div class="col-xs-6 col-sm-3 placeholder">
-      <img src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" width="200" height="200" class="img-responsive" alt="Generic placeholder thumbnail">
-      <h4>SSD</h4>
-    </div>
+  <div id="apftContainer" class="col-xs-6" style="min-width: 300px; height: 400px; max-width: 600px; margin: 0 auto">
   </div>
--->
 
-  <div id="container" style="min-width: 310px; height: 400px; max-width: 600px; margin: 0 auto">
+  <div id="ssdContainer" class="col-xs-6" style="min-width: 300px; height: 400px; max-width: 600px; margin: 0 auto">
   </div>
 
   {{range $soldier := .Soldiers}}
@@ -34,7 +23,7 @@ $(function () {
     $(document).ready(function () {
 
         // Build the chart
-        $('#container').highcharts({
+        $('#apftContainer').highcharts({
             chart: {
                 plotBackgroundColor: null,
                 plotBorderWidth: null,
@@ -74,6 +63,52 @@ $(function () {
                     name: 'APFT Untaken',
                     y: {{.APFTData.PercentNotTaken}},
                     color: 'orange'
+                }]
+            }]
+        });
+    });
+});
+
+$(function () {
+    $(document).ready(function () {
+
+        // Build the chart
+        $('#ssdContainer').highcharts({
+            chart: {
+                plotBackgroundColor: null,
+                plotBorderWidth: null,
+                plotShadow: false,
+                type: 'pie'
+            },
+            title: {
+                text: 'C Co SSD Data'
+            },
+            tooltip: {
+                pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+            },
+            plotOptions: {
+                pie: {
+                    allowPointSelect: true,
+                    cursor: 'pointer',
+                    dataLabels: {
+                        enabled: false
+                    },
+                    showInLegend: true
+                }
+            },
+            series: [{
+                name: 'SSD Data',
+                colorByPoint: true,
+                data: [{
+                    name: 'SSD Complete Percent',
+                    y: {{.SSDData.PercentFinished}},
+                    sliced: true,
+                    selected: true,
+                    color: 'green'
+                }, {
+                    name: 'SSD Incomplete Percent',
+                    y: {{.SSDData.PercentUnfinished}},
+                    color: 'red'
                 }]
             }]
         });

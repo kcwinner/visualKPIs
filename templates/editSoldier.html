@@ -67,18 +67,6 @@
     </div>
 
     <div class="form-group">
-      <label for="CivilianEmployment" class="col-sm control-label">Civilian Employment</label>
-      <div class="col-sm">
-        <input type="text"
-          class="form-control"
-          id="civilianemployment"
-          name="CivilianEmployment"
-          placeholder="Enter soldier's civilian employment"
-          value="{{.Soldier.CivilianEmployment}}" />
-      </div>
-    </div>
-
-    <div class="form-group">
       <label for="ETSDate" class="col-sm control-label">ETS Date</label>
       <div class="col-sm">
         <input type="text"
@@ -168,7 +156,6 @@
     var rank = $("#rank").val();
     var mos = $("#mos").val();
     var section = $("#section").val();
-    var civilianemployment = $("#civilianemployment").val();
     var etsdate = $("#etsdate").val();
     var ncoerdate = $("#ncoerdate").val();
     var apftpass = !!$("#apftpass").val();
@@ -185,7 +172,6 @@
         rank: rank,
         mos: mos,
         section: section,
-        civilianemployment: civilianemployment,
         etsdate: etsdate,
         ncoerdate: ncoerdate,
         apftpass: apftpass,
@@ -215,7 +201,6 @@
           rank: rank,
           mos: mos,
           section: section,
-          civilianemployment: civilianemployment,
           etsdate: etsdate,
           ncoerdate: ncoerdate,
           apftpass: apftpass,

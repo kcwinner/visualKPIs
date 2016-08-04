@@ -68,9 +68,30 @@ func slideshowHandler(w http.ResponseWriter, r *http.Request) {
 
 	response.Body.Close()
 
+	req, err = buildGetRequest("http://localhost:8080/api/v1/ssd")
+	if err != nil {
+		log.Println(err)
+	}
+
+	response, err = client.Do(req)
+	if err != nil {
+		log.Println(err)
+	}
+
+	body, err = ioutil.ReadAll(response.Body)
+	if err != nil {
+		log.Println(err)
+	}
+
+	var ssdData models.SSDData
+	json.Unmarshal(body, &ssdData)
+
+	response.Body.Close()
+
 	vm := viewModels.SlideshowViewModel{
 		Soldiers: soldiers,
 		APFTData: apftData,
+		SSDData:  ssdData,
 	}
 
 	dataTemp.RenderTemplate(w, "base", vm)

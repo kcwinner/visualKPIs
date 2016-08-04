@@ -8,4 +8,5 @@ import (
 type SlideshowViewModel struct {
 	Soldiers []models.Soldier
 	APFTData models.APFTData
+	SSDData  models.SSDData
 }
