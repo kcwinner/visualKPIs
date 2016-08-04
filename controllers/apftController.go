@@ -6,6 +6,7 @@ import (
 
 	"gopkg.in/mgo.v2/bson"
 
+	"github.com/kcwinner/visualKPIs/common"
 	"github.com/kcwinner/visualKPIs/data"
 	"github.com/kcwinner/visualKPIs/models"
 )
@@ -18,7 +19,7 @@ func GetPTData(w http.ResponseWriter, r *http.Request) {
 	session := data.GetDb()
 	defer session.Close()
 
-	coll := session.DB("goDb").C("Soldiers")
+	coll := session.DB(common.AppConfig.Database).C("Soldiers")
 
 	passedQuery := bson.M{"apftpass": true}
 	untakenQuery := bson.M{"apftscore": 0}

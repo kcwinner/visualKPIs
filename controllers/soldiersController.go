@@ -5,6 +5,7 @@ import (
 	"net/http"
 
 	"github.com/gorilla/mux"
+	"github.com/kcwinner/visualKPIs/common"
 	"github.com/kcwinner/visualKPIs/data"
 	"github.com/kcwinner/visualKPIs/models"
 	"gopkg.in/mgo.v2/bson"
@@ -20,7 +21,7 @@ func GetSoldierByID(w http.ResponseWriter, r *http.Request) {
 
 	var soldier models.Soldier
 
-	coll := session.DB("goDb").C("Soldiers")
+	coll := session.DB(common.AppConfig.Database).C("Soldiers")
 	err := coll.FindId(id).One(&soldier)
 
 	if err != nil {
@@ -46,7 +47,7 @@ func GetSoldiers(w http.ResponseWriter, r *http.Request) {
 	session := data.GetDb()
 	defer session.Close()
 
-	coll := session.DB("goDb").C("Soldiers")
+	coll := session.DB(common.AppConfig.Database).C("Soldiers")
 	iter := coll.Find(nil).Sort("lastname").Iter()
 	result := models.Soldier{}
 	for iter.Next(&result) {
@@ -81,7 +82,7 @@ func AddSoldier(w http.ResponseWriter, r *http.Request) {
 
 	soldier.ID = bson.NewObjectId()
 
-	coll := session.DB("goDb").C("Soldiers")
+	coll := session.DB(common.AppConfig.Database).C("Soldiers")
 	err = coll.Insert(soldier)
 	if err != nil {
 		sendError(w, err, http.StatusInternalServerError, "Error creating soldier.")
@@ -109,7 +110,7 @@ func UpdateSoldier(w http.ResponseWriter, r *http.Request) {
 	session := data.GetDb()
 	defer session.Close()
 
-	coll := session.DB("goDb").C("Soldiers")
+	coll := session.DB(common.AppConfig.Database).C("Soldiers")
 	err = coll.UpdateId(soldier.ID, soldier)
 	if err != nil {
 		sendError(w, err, http.StatusInternalServerError, "Error updating soldier.")
@@ -131,7 +132,7 @@ func DeleteSoldierByID(w http.ResponseWriter, r *http.Request) {
 	session := data.GetDb()
 	defer session.Close()
 
-	coll := session.DB("goDb").C("Soldiers")
+	coll := session.DB(common.AppConfig.Database).C("Soldiers")
 	err := coll.RemoveId(id)
 	if err != nil {
 		sendError(w, err, http.StatusInternalServerError, "Error deleting soldier.")

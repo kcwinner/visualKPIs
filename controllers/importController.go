@@ -12,6 +12,7 @@ import (
 
 	"gopkg.in/mgo.v2/bson"
 
+	"github.com/kcwinner/visualKPIs/common"
 	"github.com/kcwinner/visualKPIs/data"
 	"github.com/kcwinner/visualKPIs/models"
 )
@@ -56,7 +57,7 @@ func ImportData(w http.ResponseWriter, r *http.Request) {
 	session := data.GetDb()
 	defer session.Close()
 
-	coll := session.DB("goDb").C("Soldiers")
+	coll := session.DB(common.AppConfig.Database).C("Soldiers")
 
 	for _, soldier := range soldiers {
 

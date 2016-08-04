@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"net/http"
 
+	"github.com/kcwinner/visualKPIs/common"
 	"github.com/kcwinner/visualKPIs/data"
 	"github.com/kcwinner/visualKPIs/models"
 )
@@ -16,7 +17,7 @@ func GetSSDData(w http.ResponseWriter, r *http.Request) {
 	session := data.GetDb()
 	defer session.Close()
 
-	coll := session.DB("goDb").C("SSD")
+	coll := session.DB(common.AppConfig.Database).C("SSD")
 	err := coll.Find("").One(&ssdData)
 	if err != nil {
 		sendError(w, err, http.StatusInternalServerError, "Error getting SSD data.")

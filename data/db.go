@@ -1,27 +1,31 @@
 package data
 
 import (
-  "gopkg.in/mgo.v2"
-  "log"
+	"log"
+
+	"github.com/kcwinner/visualKPIs/common"
+	"gopkg.in/mgo.v2"
 )
 
 var session *mgo.Session
-var Database *mgo.Database
 
+//DialDb Starts the connection to the database
 func DialDb() error {
-  var err error
+	var err error
 
-  log.Println("Dialing mongodb: localhost")
-  session, err = mgo.Dial("localhost")
+	log.Println("Dialing mongodb:", common.AppConfig.DatabaseServer)
+	session, err = mgo.Dial(common.AppConfig.DatabaseServer)
 
-  return err
+	return err
 }
 
+//GetDb Gets a copy of the database session
 func GetDb() *mgo.Session {
-  return session.Copy()
+	return session.Copy()
 }
 
+//CloseDb Closes the connection to the database
 func CloseDb() {
-  session.Close()
-  log.Println("Closed database connection")
+	session.Close()
+	log.Println("Closed database connection")
 }
